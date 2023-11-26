@@ -23,6 +23,9 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('user_id') 
+                    ->relationship('user', 'name'),
+
                 Forms\Components\Select::make('status_id') 
                     ->relationship('status', 'name'),
 
@@ -66,8 +69,13 @@ class TaskResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
-            ])
+                Tables\Filters\SelectFilter::make('status')
+                ->relationship('status', 'name'),
+                Tables\Filters\SelectFilter::make('user')
+                ->relationship('user', 'name'),
+                Tables\Filters\SelectFilter::make('tags')
+                ->relationship('tags', 'name'),
+                ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
