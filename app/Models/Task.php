@@ -13,6 +13,8 @@ class Task extends Model
         'description',
         'status_id',
         'user_id',
+        'tags',
+        'created_by',
     ];
 
     public function status(): BelongsTo {
