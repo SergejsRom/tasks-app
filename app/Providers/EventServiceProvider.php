@@ -10,6 +10,8 @@ use App\Models\Task;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Providers\Auth;
+use App\Events\NewTaskEmailEvent;
+use App\Listeners\SendNewTaskEmailListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        NewTaskEmailEvent::class => [
+            SendNewTaskEmailListener::class,
+        ]
+
     ];
 
     /**
@@ -29,9 +35,11 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-            
         Task::creating(function($task){
             $task->created_by = auth()->id();
+            if (auth()->user()->hasRole('super_admin')) {
+                event( new NewTaskEmailEvent(event('email')));
+            }
             });
 
         Task::updating(function($task){

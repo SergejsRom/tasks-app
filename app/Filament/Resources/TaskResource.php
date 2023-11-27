@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Events\NewTaskEmailEvent;
 
 class TaskResource extends Resource
 {
@@ -21,7 +22,7 @@ class TaskResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
+       return $form
             ->schema([
                 Forms\Components\Select::make('user_id') 
                     ->relationship('user', 'name'),
@@ -40,6 +41,8 @@ class TaskResource extends Resource
                     ->relationship('tags', 'name') 
                     ->multiple(), 
             ]);
+            
+            // return $form;
     }
 
     public static function table(Table $table): Table
