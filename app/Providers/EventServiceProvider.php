@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Providers\Auth;
 use App\Events\NewTaskEmailEvent;
 use App\Listeners\SendNewTaskEmailListener;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewTaskEmail;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -24,10 +26,6 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        NewTaskEmailEvent::class => [
-            SendNewTaskEmailListener::class,
-        ]
-
     ];
 
     /**
@@ -36,15 +34,21 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Task::creating(function($task){
-            $task->created_by = auth()->id();
+
+            $task->created_by = auth()->user()->email;
             if (auth()->user()->hasRole('super_admin')) {
-                event( new NewTaskEmailEvent(event('email')));
+                event( new NewTaskEmailEvent(event($task->user->email)));
+                Mail::to($task->user->email)->send(new NewTaskEmail());
             }
             });
 
-        Task::updating(function($task){
-                $task->created_by = auth()->id();
-                });
+        // Task::updating(function($task){
+        //         $task->created_by = auth()->id();
+        //         if (auth()->user()->hasRole('super_admin')) {
+        //             event( new NewTaskEmailEvent(event($task->user->email)));
+        //             Mail::to($task->user->email)->send(new NewTaskEmail());
+        //         }
+        //         });
     }
 
     /**
