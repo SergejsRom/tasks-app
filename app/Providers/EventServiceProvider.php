@@ -37,7 +37,9 @@ class EventServiceProvider extends ServiceProvider
             if (auth()->user()->hasRole('panel_user')) {
                 $task->user_id = auth()->user()->id;
             }
+
             $task->created_by = auth()->user()->email;
+            
             if (auth()->user()->hasRole('super_admin')) {
                 event( new NewTaskEmailEvent(event($task->user->email)));
                 Mail::to($task->user->email)->send(new NewTaskEmail());

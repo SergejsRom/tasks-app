@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Filament\Resources;
+use Illuminate\Support\Facades\Auth;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
