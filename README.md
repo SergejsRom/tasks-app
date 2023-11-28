@@ -1,66 +1,39 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description
 
-## About Laravel
+We need a task management app with the following requirements:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+:white_check_mark: The app has two types of users, admin user and normal user.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+:white_check_mark: Normal users can register and log in.
 
-## Learning Laravel
+:white_check_mark: Admin users can log in to the admin panel and new admins are only allowed to create from the admin panel.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+:white_check_mark: Each normal user can view, create, edit, and delete their tasks in the user panel.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+:white_check_mark: Each task contains a title, a description, a status, and multiple tags.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+:white_check_mark: Tasks can either be created by the normal user from the user panel or by admins from the admin panel and assigned to a normal user.
 
-## Laravel Sponsors
+:white_check_mark: Normal users can change the title, text, status, and tags of tasks created by them but are not allowed to change the title, text, and tags of tasks created by admins. Normal users only can change the status of tasks created by admins.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+:white_check_mark: Normal users can delete tasks created by them but are not allowed to delete tasks created by admins.
 
-### Premium Partners
+:white_check_mark: Each task has a status with the following values: Open, Pending, In-progress, In-review, Accepted, and Rejected.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+:white_check_mark: Normal users can change each task status to Open, Pending, In-progress, or In-review but only admins are allowed to set task status as Accepted or Rejected from the admin panel.
 
-## Contributing
+:white_check_mark: Admins should be able to create tags from the admin panel but normal users only can select tags from the tags list defined by admins.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+:white_check_mark: Admins must be able to filter tasks by assigned user, status, and tag in the admin panel.
+Normal users must be able to filter their tasks by status or tags in the user panel.
 
-## Code of Conduct
+:white_check_mark: When admins create a new task for a normal user, the user should receive an email to inform them they have a new task.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+When a user changes a task status to In-review that was created by an admin, the admin that created the task should receive an email to notify them that the user has done the task and is ready for review.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### App created uing laravel, filamnetphp, livewire, jetstream, tailwindcss.
+For the user reused filament with livewire component.\
+For roles and permissions used filament shield and on top restricted access to filament admin panel in user model. (Could be done without shield, just with restrictions by role)\
+Seeders for admin user and statuses
