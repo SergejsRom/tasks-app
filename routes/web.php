@@ -26,6 +26,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/new-task', function () {
+        return view('new-task');
+    })->name('new-task');
 });
 
 Livewire::setUpdateRoute(function ($handle) {
