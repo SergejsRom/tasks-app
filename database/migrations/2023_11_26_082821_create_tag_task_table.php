@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tag_task', function (Blueprint $table) {
             $table->foreignId('tag_id')->constrained();
-            $table->foreignId('task_id')->constrained();
+            $table->foreignId('task_id')->constrained()->onDelete('cascade');
         });
     }
 
