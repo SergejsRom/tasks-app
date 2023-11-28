@@ -18,6 +18,8 @@ use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\RichEditor;
+
 
 
 class TaskForm extends Component implements HasForms
@@ -46,7 +48,7 @@ class TaskForm extends Component implements HasForms
             Forms\Components\TextInput::make('title')
                 ->required()
                 ->maxLength(255),
-            Forms\Components\TextInput::make('description')
+            Forms\Components\RichEditor::make('description')
                 ->required()
                 ->maxLength(255),
 

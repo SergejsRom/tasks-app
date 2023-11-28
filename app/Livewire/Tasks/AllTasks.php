@@ -19,6 +19,10 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Forms\Components\RichEditor;
+
+
 
 
 class AllTasks extends Component implements HasForms, HasTable
@@ -39,7 +43,8 @@ class AllTasks extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
+                    ->searchable()
+                    ->html(),
                 Tables\Columns\TextColumn::make('tags.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -58,39 +63,58 @@ class AllTasks extends Component implements HasForms, HasTable
                 ->relationship('tags', 'name'),
             ])
             ->actions([
+                ViewAction::make()
+                ->form([
+                    Select::make('status_id') 
+                        ->relationship('status', 'name')
+                        ->required(),
+                    
+                    TextInput::make('title')
+                        ->required()
+                        ->maxLength(255),
+                    
+                    RichEditor::make('description')
+                    ->required()
+                    ->maxLength(255),
+
+                    Select::make('tags')
+                    ->relationship('tags', 'name') 
+                        ->multiple(),
+        ]),
+
                 EditAction::make()
                 ->form([
-                Select::make('status_id') 
-                ->relationship('status', 'name')
-                ->options(function () {
-                    return Status::where('name', '!=', 'Accepted')->where('name', '!=', 'Rejected')->pluck('name', 'id');
-                })
-                ->required(),
+                        Select::make('status_id') 
+                        ->relationship('status', 'name')
+                        ->options(function () {
+                            return Status::where('name', '!=', 'Accepted')->where('name', '!=', 'Rejected')->pluck('name', 'id');
+                        })
+                        ->required(),
 
-                TextInput::make('title')
-                ->visible(function (Task $task): bool {
-                    $visible = auth()->user()->email == $task->created_by;
-                 return $visible;
-                })
-                ->required()
-                ->maxLength(255),
+                        TextInput::make('title')
+                        ->visible(function (Task $task): bool {
+                            $visible = auth()->user()->email == $task->created_by;
+                        return $visible;
+                        })
+                        ->required()
+                        ->maxLength(255),
 
-                TextInput::make('description')
-                ->visible(function (Task $task): bool {
-                    $visible = auth()->user()->email == $task->created_by;
-                 return $visible;
-                })
-                ->required()
-                ->maxLength(255),
+                        RichEditor::make('description')
+                        ->visible(function (Task $task): bool {
+                            $visible = auth()->user()->email == $task->created_by;
+                        return $visible;
+                        })
+                        ->required()
+                        ->maxLength(255),
 
-                Select::make('tags') 
-                ->visible(function (Task $task): bool {
-                    $visible = auth()->user()->email == $task->created_by;
-                 return $visible;
-                })
-                ->relationship('tags', 'name') 
-                ->multiple(), 
-            ]),
+                        Select::make('tags') 
+                        ->visible(function (Task $task): bool {
+                            $visible = auth()->user()->email == $task->created_by;
+                        return $visible;
+                        })
+                        ->relationship('tags', 'name') 
+                        ->multiple(), 
+                    ]),
             DeleteAction::make()
             ->before(
                 function (DeleteAction $action,Task $task) {
